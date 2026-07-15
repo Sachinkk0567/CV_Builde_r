@@ -21,8 +21,10 @@ st.sidebar.title("Settings")
 model_name = st.sidebar.selectbox(
     "Select Model",
     [
-        "gemini-2.5-flash",
-        "gemini-2.5-pro"
+        "gemini-3.5-flash",
+        "gemini-2.0-flash",
+        "gemini-flash-latest",
+        "gemini-pro-latest"
     ]
 )
 
