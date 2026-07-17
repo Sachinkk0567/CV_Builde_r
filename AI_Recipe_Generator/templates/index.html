@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🍳 SmartChef - AI Recipe Generator</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Markdown Parser -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <!-- App Styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="light-theme">
+    <div class="app-container">
+        
+        <!-- Header -->
+        <header class="header">
+            <div class="brand">
+                <span class="logo-icon">🍳</span>
+                <div>
+                    <h1>SmartChef AI</h1>
+                    <p class="subtitle">Turn your ingredients into instant gourmet recipes</p>
+                </div>
+            </div>
+            <button id="themeToggle" class="icon-btn" title="Toggle Theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </header>
+
+        <!-- Main Layout Grid -->
+        <main class="main-grid">
+            
+            <!-- Left Panel: Input Controls -->
+            <section class="card input-card">
+                <h2><i class="fa-solid fa-wand-magic-sparkles"></i> Build Your Recipe</h2>
+
+                <form id="recipeForm" onsubmit="event.preventDefault(); generateRecipe();">
+                    
+                    <!-- Ingredients Input -->
+                    <div class="form-group">
+                        <label for="ingredients"><i class="fa-solid fa-carrot"></i> Ingredients in Your Kitchen</label>
+                        <textarea id="ingredients" placeholder="e.g. Tomato, Onion, Egg, Rice, Garlic..." rows="3" required></textarea>
+                    </div>
+
+                    <!-- Quick Ingredient Chips -->
+                    <div class="quick-chips">
+                        <span class="chip-label">Quick Ideas:</span>
+                        <div class="chips-list">
+                            <button type="button" class="chip" onclick="addChip('Tomato, Onion, Egg, Rice')">🥚 Tomato, Egg & Rice</button>
+                            <button type="button" class="chip" onclick="addChip('Potato, Cheese, Butter, Herbs')">🧀 Potato & Cheese</button>
+                            <button type="button" class="chip" onclick="addChip('Chicken, Rice, Garlic, Yoghurt')">🍗 Chicken & Rice</button>
+                            <button type="button" class="chip" onclick="addChip('Paneer, Capsicum, Onion, Tomato')">🫑 Paneer & Capsicum</button>
+                            <button type="button" class="chip" onclick="addChip('Mushroom, Butter, Garlic, Cream')">🍄 Mushroom & Butter</button>
+                        </div>
+                    </div>
+
+                    <hr class="divider">
+
+                    <!-- Options Grid -->
+                    <div class="options-grid">
+                        
+                        <!-- Dietary Filter -->
+                        <div class="form-group">
+                            <label for="dietary"><i class="fa-solid fa-leaf"></i> Dietary Preference</label>
+                            <select id="dietary">
+                                <option value="Any" selected>Any Choice</option>
+                                <option value="Vegetarian">🌱 Vegetarian</option>
+                                <option value="Vegan">🥦 Vegan</option>
+                                <option value="Non-Vegetarian">🍗 Non-Vegetarian</option>
+                                <option value="Gluten-Free">🌾 Gluten-Free</option>
+                                <option value="Keto">🥑 Keto Friendly</option>
+                            </select>
+                        </div>
+
+                        <!-- Cuisine Selection -->
+                        <div class="form-group">
+                            <label for="cuisine"><i class="fa-solid fa-globe"></i> Cuisine Style</label>
+                            <select id="cuisine">
+                                <option value="Any" selected>Chef's Choice</option>
+                                <option value="Indian">🇮🇳 Indian</option>
+                                <option value="Italian">🇮🇹 Italian</option>
+                                <option value="Chinese">🇨🇳 Chinese</option>
+                                <option value="Mexican">🇲🇽 Mexican</option>
+                                <option value="Mediterranean">🇬🇷 Mediterranean</option>
+                                <option value="Continental">🌐 Continental</option>
+                            </select>
+                        </div>
+
+                        <!-- Spice Level -->
+                        <div class="form-group">
+                            <label for="spice_level"><i class="fa-solid fa-pepper-hot"></i> Spice Level</label>
+                            <select id="spice_level">
+                                <option value="Mild">🌶️ Mild</option>
+                                <option value="Medium" selected>🌶️🌶️ Medium</option>
+                                <option value="Spicy">🌶️🌶️🌶️ Spicy</option>
+                                <option value="Extra Hot">🔥 Extra Hot</option>
+                            </select>
+                        </div>
+
+                        <!-- Meal Type -->
+                        <div class="form-group">
+                            <label for="meal_type"><i class="fa-solid fa-clock"></i> Meal Type</label>
+                            <select id="meal_type">
+                                <option value="Any" selected>Any Time</option>
+                                <option value="Breakfast">🌅 Breakfast</option>
+                                <option value="Lunch">☀️ Lunch</option>
+                                <option value="Dinner">🌙 Dinner</option>
+                                <option value="Snack">🍿 Quick Snack</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="submitBtn" class="btn btn-primary">
+                        <i class="fa-solid fa-bolt"></i> Generate Recipe with AI
+                    </button>
+
+                </form>
+            </section>
+
+            <!-- Right Panel: Recipe Result Display -->
+            <section class="card result-card">
+                
+                <!-- Initial Placeholder State -->
+                <div id="emptyState" class="empty-state">
+                    <div class="empty-icon">🍲</div>
+                    <h3>Your Chef Canvas is Ready</h3>
+                    <p>Enter your ingredients on the left and click <strong>Generate Recipe</strong> to create your custom meal!</p>
+                </div>
+
+                <!-- Loading State -->
+                <div id="loadingState" class="loading-state hidden">
+                    <div class="spinner"></div>
+                    <h3>Crafting your recipe...</h3>
+                    <p>Chef AI is blending flavors and calculating nutrition</p>
+                </div>
+
+                <!-- Recipe Display Area -->
+                <div id="recipeOutput" class="recipe-output hidden">
+                    
+                    <!-- Recipe Actions Bar -->
+                    <div class="recipe-actions">
+                        <button onclick="copyRecipe()" class="btn-sm"><i class="fa-regular fa-copy"></i> Copy</button>
+                        <button onclick="window.print()" class="btn-sm"><i class="fa-solid fa-print"></i> Print / Save PDF</button>
+                    </div>
+
+                    <!-- Rendered Markdown Content -->
+                    <div id="recipeContent" class="markdown-body"></div>
+                </div>
+
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Powered by <strong>Google Gemini 3.5</strong> & Flask | SmartChef AI © 2026</p>
+        </footer>
+
+    </div>
+
+    <!-- Application Script -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

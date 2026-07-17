@@ -1,0 +1,405 @@
+/* ==========================================================================
+   SmartChef AI - CSS Design System & Theme Variables
+   ========================================================================== */
+
+:root {
+    --font-primary: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+    
+    /* Light Theme Palette */
+    --bg-gradient: linear-gradient(135deg, #FFF6ED 0%, #FFECE0 50%, #F5EBE6 100%);
+    --card-bg: rgba(255, 255, 255, 0.92);
+    --card-border: rgba(240, 140, 70, 0.15);
+    --text-primary: #2C221E;
+    --text-secondary: #6B5C55;
+    --accent-primary: #FF5E36;
+    --accent-hover: #E04620;
+    --accent-light: #FFF0EB;
+    --secondary-bg: #F8F1EC;
+    --input-bg: #FFFFFF;
+    --input-border: #E8D7CD;
+    --shadow-sm: 0 4px 12px rgba(230, 90, 40, 0.08);
+    --shadow-md: 0 10px 30px rgba(180, 70, 30, 0.12);
+    --chip-bg: #F7EBE4;
+    --chip-text: #8A482A;
+}
+
+body.dark-theme {
+    /* Dark Theme Palette */
+    --bg-gradient: linear-gradient(135deg, #181311 0%, #221A16 50%, #1A1513 100%);
+    --card-bg: rgba(36, 28, 25, 0.92);
+    --card-border: rgba(255, 110, 70, 0.18);
+    --text-primary: #F7EDE8;
+    --text-secondary: #BFAEA6;
+    --accent-primary: #FF6F48;
+    --accent-hover: #FF8563;
+    --accent-light: #3A251D;
+    --secondary-bg: #2B211D;
+    --input-bg: #1F1714;
+    --input-border: #44342E;
+    --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.5);
+    --chip-bg: #352620;
+    --chip-text: #FF9B7D;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-primary);
+    background: var(--bg-gradient);
+    color: var(--text-primary);
+    min-height: 100vh;
+    padding: 20px;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.app-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--card-bg);
+    padding: 16px 24px;
+    border-radius: 18px;
+    border: 1px solid var(--card-border);
+    box-shadow: var(--shadow-sm);
+    backdrop-filter: blur(10px);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.logo-icon {
+    font-size: 2.2rem;
+}
+
+.brand h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--accent-primary);
+}
+
+.subtitle {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+}
+
+.icon-btn {
+    background: var(--secondary-bg);
+    border: 1px solid var(--input-border);
+    color: var(--text-primary);
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-btn:hover {
+    transform: scale(1.08);
+    color: var(--accent-primary);
+}
+
+/* Grid Layout */
+.main-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+@media (max-width: 900px) {
+    .main-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Cards */
+.card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 28px;
+    box-shadow: var(--shadow-md);
+    backdrop-filter: blur(12px);
+    display: flex;
+    flex-direction: column;
+}
+
+.card h2 {
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.card h2 i {
+    color: var(--accent-primary);
+}
+
+/* Form Styling */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+textarea, select {
+    font-family: inherit;
+    background: var(--input-bg);
+    border: 1.5px solid var(--input-border);
+    color: var(--text-primary);
+    padding: 12px 14px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+textarea:focus, select:focus {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px rgba(255, 94, 54, 0.15);
+}
+
+.divider {
+    border: none;
+    height: 1px;
+    background: var(--card-border);
+    margin: 16px 0;
+}
+
+/* Quick Chips */
+.quick-chips {
+    margin-bottom: 16px;
+}
+
+.chip-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    display: block;
+    margin-bottom: 8px;
+}
+
+.chips-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.chip {
+    background: var(--chip-bg);
+    color: var(--chip-text);
+    border: none;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.chip:hover {
+    transform: translateY(-2px);
+    background: var(--accent-light);
+    color: var(--accent-primary);
+}
+
+/* Options Grid */
+.options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+/* Button */
+.btn {
+    background: var(--accent-primary);
+    color: #FFFFFF;
+    border: none;
+    padding: 14px 20px;
+    border-radius: 14px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+
+}
+
+.btn:hover {
+    background: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 94, 54, 0.3);
+}
+
+/* States */
+.hidden {
+    display: none !important;
+}
+
+.empty-state, .loading-state {
+    text-align: center;
+    margin: auto 0;
+    padding: 40px 20px;
+}
+
+.empty-icon {
+    font-size: 3.5rem;
+    margin-bottom: 16px;
+}
+
+.empty-state h3, .loading-state h3 {
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+}
+
+.empty-state p, .loading-state p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+/* Spinner */
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid var(--secondary-bg);
+    border-top: 4px solid var(--accent-primary);
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Recipe Display & Markdown */
+.recipe-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.btn-sm {
+    background: var(--secondary-bg);
+    border: 1px solid var(--input-border);
+    color: var(--text-primary);
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-sm:hover {
+    color: var(--accent-primary);
+    border-color: var(--accent-primary);
+}
+
+.markdown-body {
+    line-height: 1.6;
+    font-size: 0.98rem;
+}
+
+.markdown-body h1 {
+    font-size: 1.8rem;
+    color: var(--accent-primary);
+    margin-bottom: 8px;
+}
+
+.markdown-body blockquote {
+    background: var(--accent-light);
+    border-left: 4px solid var(--accent-primary);
+    padding: 10px 16px;
+    border-radius: 0 10px 10px 0;
+    margin-bottom: 16px;
+    font-style: italic;
+    color: var(--text-secondary);
+}
+
+.markdown-body h3 {
+    font-size: 1.15rem;
+    margin: 20px 0 10px;
+    color: var(--text-primary);
+}
+
+.markdown-body ul, .markdown-body ol {
+    padding-left: 24px;
+    margin-bottom: 16px;
+}
+
+.markdown-body li {
+    margin-bottom: 6px;
+}
+
+.markdown-body hr {
+    border: none;
+    height: 1px;
+    background: var(--card-border);
+    margin: 18px 0;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    padding: 10px 0;
+}
+
+/* Print Rules */
+@media print {
+    body {
+        background: white;
+        color: black;
+    }
+    .header, .input-card, .recipe-actions, .footer {
+        display: none !important;
+    }
+    .main-grid {
+        grid-template-columns: 1fr;
+    }
+    .card {
+        border: none;
+        box-shadow: none;
+        padding: 0;
+    }
+}
