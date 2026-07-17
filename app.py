@@ -34,6 +34,16 @@ st.markdown("""
         display: inline-block;
         margin-bottom: 1rem;
     }
+    .mic-guide {
+        background-color: #FFFBEB;
+        border-left: 4px solid #F59E0B;
+        padding: 10px 14px;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        color: #92400E;
+        margin-top: 8px;
+        margin-bottom: 16px;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -111,7 +121,6 @@ if "messages" not in st.session_state:
 # ----------------- Audio Helper Function -----------------
 def generate_tts_audio(text: str, lang: str = "en") -> bytes:
     try:
-        # Limit text size for fast audio synthesis
         clean_text = text[:1000] if len(text) > 1000 else text
         tts = gTTS(text=clean_text, lang=lang)
         fp = io.BytesIO()
@@ -138,13 +147,23 @@ if not api_key:
 st.subheader("🎙️ Voice Input")
 audio_val = st.audio_input("Record your voice prompt:")
 
+with st.expander("❓ Seeing 'Microphone is unavailable'? How to fix:"):
+    st.markdown("""
+    **If your browser says 'Microphone is unavailable' or 'Microphone permission denied':**
+    
+    1. **Chrome / Edge / Brave**: Click the **🔒 Padlock icon** on the far left of your address bar (next to `https://ai-voice-assistent.streamlit.app`).
+    2. Toggle **Microphone** to **Allow**.
+    3. Reload the browser page (`F5` or `Ctrl+R`).
+    4. **Safari (Mac / iPhone)**: Tap **Aa** or **🔒** in address bar → **Website Settings** → **Microphone** → Select **Allow**.
+    5. **Alternative**: You can always type your question directly in the text box below!
+    """)
+
 prompt = st.chat_input("Or type your message here...")
 
 user_prompt = None
 audio_bytes = None
 
 if audio_val is not None:
-    # Read audio input
     audio_bytes = audio_val.read()
     if audio_bytes and len(audio_bytes) > 0:
         user_prompt = "🎤 [Voice Input Recorded]"
@@ -153,7 +172,6 @@ if prompt:
     user_prompt = prompt
 
 if user_prompt:
-    # Save user message
     st.session_state.messages.append({"role": "user", "content": user_prompt})
     with st.chat_message("user"):
         st.markdown(user_prompt)
@@ -164,7 +182,6 @@ if user_prompt:
         with st.spinner("Thinking..."):
             try:
                 if audio_bytes:
-                    # Multimodal audio input to Gemini
                     audio_part = types.Part.from_bytes(
                         data=audio_bytes,
                         mime_type="audio/wav"
